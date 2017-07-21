@@ -1,4 +1,4 @@
-# Python random cracker
+# Python random module cracker/predictor
 
 This script is able to predict python's `random` module random generated values. Script was tested against **Python 3.5.2** and **3.6.2.** Should work against other versions of Python as well, since the generator is pretty much the same in **2.7.12**. Enjoy!
 
@@ -21,7 +21,7 @@ Cracker can predict new numbers with following methods, which work exactly the s
 **Note:** Cracker does not implement prediction of `random()` function since it is based on the `os.urandom` module which is based on `/dev/urandom`.
 
 Here's an example usage:
-
+```python
 	import random, time
 	from randcrack import RandCrack
 	rc = RandCrack()
@@ -30,6 +30,7 @@ Here's an example usage:
 	    # Could be filled with random.randint(0,4294967294) or random.randrange(0,4294967294)
 	print("Random result: {}\nCracker result: {}"
 			.format(random.randrange(0, 4294967295), rc.predict_randrange(0, 4294967295)))
+```
 **Output**
 	
 	Random result: 127160928
