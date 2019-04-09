@@ -1,7 +1,7 @@
 
 # randcrack – Python random module cracker / predictor
 
-
+[![Build Status](https://travis-ci.org/tna0y/Python-random-module-cracker.svg?branch=master)](https://travis-ci.org/tna0y/Python-random-module-cracker)
 ![PyPI](https://img.shields.io/pypi/v/randcrack.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/randcrack.svg)
 ![PyPI - Implementation](https://img.shields.io/pypi/implementation/randcrack.svg)
