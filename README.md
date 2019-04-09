@@ -1,6 +1,19 @@
-# Python random module cracker/predictor
 
-This script is able to predict python's `random` module random generated values. Script was tested against **Python 3.5.2** and **3.6.2.** Should work against other versions of Python as well, since the generator is pretty much the same in **2.7.12**. Enjoy!
+# randcrack – Python random module cracker / predictor
+
+
+![PyPI](https://img.shields.io/pypi/v/randcrack.svg)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/randcrack.svg)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/randcrack.svg)
+
+This script is able to predict python's `random` module random generated values. Script was tested against **Python 3.5.2**, **3.6.2.** and **3.7.0.** Should work against other versions of Python as well, since the generator is pretty much the same in **2.7.12**. Enjoy!
+
+## Installation
+To install randcrack, simply:
+
+```bash
+$ pip install randcrack
+```
 
 ## How it works
 The generator is based upon *Mersenne Twister*, which is able to generate numbers with excellent statistical properties(indistinguishable from truly random). However, this generator was not designed to be cryptographycally secure. You should NEVER use in critical applications as a PRNG for your crypto scheme.
