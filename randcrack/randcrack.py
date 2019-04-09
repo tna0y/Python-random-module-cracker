@@ -1,4 +1,3 @@
-
 class RandCrack:
 
     def __init__(self):
@@ -12,8 +11,8 @@ class RandCrack:
             return
         bits = self._to_bitarray(num)
 
-        assert(all([x == 0 or x == 1 for x in bits]))
-        self.counter +=1
+        assert (all([x == 0 or x == 1 for x in bits]))
+        self.counter += 1
         self.mt.append(self._harden_inverse(bits))
         if self.counter == 624:
             self._regen()
@@ -27,26 +26,26 @@ class RandCrack:
             self._regen()
         self.counter += 1
 
-        return self._harden(self.mt[self.counter-1])
+        return self._harden(self.mt[self.counter - 1])
 
-    def predict_getrandbits(self,k):
+    def predict_getrandbits(self, k):
         if not self.state:
             print("Didn't recieve enough bits to predict")
             return 0
         if k == 0:
             return 0
-        words = (k-1) // 32 + 1
+        words = (k - 1) // 32 + 1
         res = []
         for i in range(words):
             r = self._predict_32()
             if k < 32:
-                r = [0]*(32-k) +r[:k]
+                r = [0] * (32 - k) + r[:k]
             res = r + res
             k -= 32
         return self._to_int(res)
 
     def predict_randbelow(self, n):
-        k = n.bit_length() 
+        k = n.bit_length()
         r = self.predict_getrandbits(k)
         while r >= n:
             r = self.predict_getrandbits(k)
@@ -87,10 +86,10 @@ class RandCrack:
         if n <= 0:
             raise ValueError("empty range for randrange()")
 
-        return istart + istep*self.predict_randbelow(n)
+        return istart + istep * self.predict_randbelow(n)
 
-    def predict_randint(self, a,b):
-        return self.predict_randrange(a, b+1)
+    def predict_randint(self, a, b):
+        return self.predict_randrange(a, b + 1)
 
     def predict_choice(self, seq):
         try:
@@ -101,56 +100,53 @@ class RandCrack:
 
     def _to_bitarray(self, num):
         k = [int(x) for x in bin(num)[2:]]
-        return [0] * (32-len(k)) + k
+        return [0] * (32 - len(k)) + k
 
-    def _to_int(self, bits ):
+    def _to_int(self, bits):
         return int("".join(str(i) for i in bits), 2)
 
     def _or_nums(self, a, b):
         if len(a) < 32:
-            a = [0]* (32-len(a))+a
+            a = [0] * (32 - len(a)) + a
         if len(b) < 32:
-            b = [0]* (32-len(b))+b
+            b = [0] * (32 - len(b)) + b
 
         return [x[0] | x[1] for x in zip(a, b)]
 
     def _xor_nums(self, a, b):
         if len(a) < 32:
-            a = [0]* (32-len(a))+a
+            a = [0] * (32 - len(a)) + a
         if len(b) < 32:
-            b = [0]* (32-len(b))+b
+            b = [0] * (32 - len(b)) + b
 
         return [x[0] ^ x[1] for x in zip(a, b)]
 
     def _and_nums(self, a, b):
         if len(a) < 32:
-            a = [0]* (32-len(a))+a
+            a = [0] * (32 - len(a)) + a
         if len(b) < 32:
-            b = [0]* (32-len(b))+b
+            b = [0] * (32 - len(b)) + b
 
         return [x[0] & x[1] for x in zip(a, b)]
 
-
-
-
     def _decode_harden_midop(self, enc, and_arr, shift):
-        
+
         NEW = 0
         XOR = 1
-        OK =  2
+        OK = 2
         work = []
         for i in range(32):
-            work.append((NEW,enc[i]))
+            work.append((NEW, enc[i]))
         changed = True
         while changed:
             changed = False
             for i in range(32):
                 status = work[i][0]
                 data = work[i][1]
-                if i >= 32-shift and status == NEW:
-                    work[i] = (OK,data)
+                if i >= 32 - shift and status == NEW:
+                    work[i] = (OK, data)
                     changed = True
-                elif i < 32-shift and status == NEW:
+                elif i < 32 - shift and status == NEW:
                     if and_arr[i] == 0:
                         work[i] = (OK, data)
                         changed = True
@@ -158,18 +154,17 @@ class RandCrack:
                         work[i] = (XOR, data)
                         changed = True
                 elif status == XOR:
-                    i_other = i+shift
+                    i_other = i + shift
                     if work[i_other][0] == OK:
                         work[i] = (OK, data ^ work[i_other][1])
                         changed = True
 
         return [x[1] for x in work]
 
-
     def _harden(self, bits):
         bits = self._xor_nums(bits, bits[:-11])
-        bits = self._xor_nums(bits, self._and_nums(bits[7:] + [0] * 7 , self._to_bitarray(0x9d2c5680)))
-        bits = self._xor_nums(bits, self._and_nums(bits[15:] + [0] * 15 , self._to_bitarray(0xefc60000)))
+        bits = self._xor_nums(bits, self._and_nums(bits[7:] + [0] * 7, self._to_bitarray(0x9d2c5680)))
+        bits = self._xor_nums(bits, self._and_nums(bits[15:] + [0] * 15, self._to_bitarray(0xefc60000)))
         bits = self._xor_nums(bits, bits[:-18])
         return bits
 
@@ -181,11 +176,10 @@ class RandCrack:
         # inverse for: bits = _xor_nums(bits, _and_nums(bits[7:] + [0] * 7 , _to_bitarray(0x9d2c5680)))
         bits = self._decode_harden_midop(bits, self._to_bitarray(0x9d2c5680), 7)
         # inverse for: bits = _xor_nums(bits, bits[:-11])
-        bits = self._xor_nums(bits, [0] * 11 + bits[:11]+[0] * 10)
+        bits = self._xor_nums(bits, [0] * 11 + bits[:11] + [0] * 10)
         bits = self._xor_nums(bits, bits[11:21])
 
         return bits
-
 
     def _regen(self):
         # C code translated from python sources
@@ -198,17 +192,17 @@ class RandCrack:
 
         l_bits = self._to_bitarray(LOWER_MASK)
         u_bits = self._to_bitarray(UPPER_MASK)
-        
-        for kk in range(0,N-M):
-            y = self._or_nums(self._and_nums( self.mt[kk], u_bits), self._and_nums(self.mt[kk+1],l_bits))
-            self.mt[kk] = self._xor_nums(self._xor_nums( self.mt[kk+M] , y[:-1]) , mag01[y[-1] & 1])
 
-        for kk in range(N-M-1, N-1):
-            y = self._or_nums(self._and_nums( self.mt[kk], u_bits), self._and_nums(self.mt[kk+1],l_bits))
-            self.mt[kk] = self._xor_nums(self._xor_nums( self.mt[kk+(M-N)] , y[:-1]) , mag01[y[-1] & 1])
+        for kk in range(0, N - M):
+            y = self._or_nums(self._and_nums(self.mt[kk], u_bits), self._and_nums(self.mt[kk + 1], l_bits))
+            self.mt[kk] = self._xor_nums(self._xor_nums(self.mt[kk + M], y[:-1]), mag01[y[-1] & 1])
 
-        y = self._or_nums(self._and_nums( self.mt[N-1], u_bits), self._and_nums(self.mt[0],l_bits))
-        self.mt[N-1] = self._xor_nums(self._xor_nums( self.mt[M-1] , y[:-1]) , mag01[y[-1] & 1])
+        for kk in range(N - M - 1, N - 1):
+            y = self._or_nums(self._and_nums(self.mt[kk], u_bits), self._and_nums(self.mt[kk + 1], l_bits))
+            self.mt[kk] = self._xor_nums(self._xor_nums(self.mt[kk + (M - N)], y[:-1]), mag01[y[-1] & 1])
+
+        y = self._or_nums(self._and_nums(self.mt[N - 1], u_bits), self._and_nums(self.mt[0], l_bits))
+        self.mt[N - 1] = self._xor_nums(self._xor_nums(self.mt[M - 1], y[:-1]), mag01[y[-1] & 1])
 
         self.counter = 0
 
@@ -223,11 +217,7 @@ if __name__ == "__main__":
     random.seed(time.time())
 
     for i in range(624):
-        cracker.submit(random.randint(0,4294967294))
+        cracker.submit(random.randint(0, 4294967294))
 
     print("Guessing next 32000 random bits success rate: {}%"
-        .format(sum([random.getrandbits(32)==cracker.predict_getrandbits(32) for x in range(1000)])/10))
-
-
-
-        
+          .format(sum([random.getrandbits(32) == cracker.predict_getrandbits(32) for x in range(1000)]) / 10))
