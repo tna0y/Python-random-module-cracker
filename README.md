@@ -6,7 +6,9 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/randcrack.svg)
 ![PyPI - Implementation](https://img.shields.io/pypi/implementation/randcrack.svg)
 
-This script is able to predict python's `random` module random generated values. Script was tested against **Python 3.5.2**, **3.6.2.** and **3.7.0.** Should work against other versions of Python as well, since the generator is pretty much the same in **2.7.12**. Enjoy!
+This script is able to predict python's `random` module random generated values.
+
+Script was tested against **Python 3.5.2**, **3.6.2.** and **3.7.0.** Should work against other versions of Python as well, since the generator is pretty much the same in **2.7.12**. Enjoy!
 
 ## Installation
 To install randcrack, simply:

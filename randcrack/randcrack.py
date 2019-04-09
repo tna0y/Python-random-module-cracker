@@ -7,8 +7,8 @@ class RandCrack:
 
     def submit(self, num):
         if self.state:
-            print("Already got enough bits")
-            return
+            raise ValueError("Already got enough bits")
+
         bits = self._to_bitarray(num)
 
         assert (all([x == 0 or x == 1 for x in bits]))
@@ -20,8 +20,8 @@ class RandCrack:
 
     def _predict_32(self):
         if not self.state:
-            print("Didn't recieve enough bits to predict")
-            return 0
+            raise ValueError("Didn't recieve enough bits to predict")
+
         if self.counter >= 624:
             self._regen()
         self.counter += 1
@@ -30,8 +30,8 @@ class RandCrack:
 
     def predict_getrandbits(self, k):
         if not self.state:
-            print("Didn't recieve enough bits to predict")
-            return 0
+            raise ValueError("Didn't recieve enough bits to predict")
+
         if k == 0:
             return 0
         words = (k - 1) // 32 + 1
@@ -208,7 +208,8 @@ class RandCrack:
 
 
 if __name__ == "__main__":
-    import random, time
+    import random
+    import time
 
     print("Testing random module cracker...")
 
