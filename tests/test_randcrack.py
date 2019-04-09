@@ -3,7 +3,7 @@ import time
 
 import pytest
 
-from ..randcrack import RandCrack
+from randcrack import RandCrack
 
 
 def test_submit_not_enough():
