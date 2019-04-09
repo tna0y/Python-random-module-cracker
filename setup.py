@@ -1,11 +1,17 @@
 from distutils.core import setup
 
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(
     name='randcrack',  # How you named your package folder (MyLib)
     packages=['randcrack'],  # Chose the same as "name"
     version='0.1.1',  # Start with a small number and increase it with every change you make
     license='MIT',  # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     description='Predict python\'s random module random generated values',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author='Maxim Kochukov',  # Type in your name
     author_email='kochukov.ma@gmail.com',  # Type in your E-Mail
     url='https://github.com/tna0y/Python-random-module-cracker',  # Provide either the link to your github
