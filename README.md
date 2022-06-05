@@ -31,9 +31,7 @@ As well, you must feed the cracker exactly after new seed is presented, or after
 
 Cracker has one method for feeding: `submit(n)`. After submitting 624 integers it won't take any more and will be ready for predicting new numbers.
 
-Cracker can predict new numbers with following methods, which work exactly the same as their siblings from the `random` module but without `predict_` prefix. These are: `predict_getrandbits`, `predict_randbelow`, `predict_randrange`,  `predict_randint` and `predict_choice`
-
-**Note:** Cracker does not implement prediction of `random()` function since it is based on the `os.urandom` module which is based on `/dev/urandom`.
+Cracker can predict new numbers with following methods, which work exactly the same as their siblings from the `random` module but without `predict_` prefix. These are: `predict_getrandbits`, `predict_randbelow`, `predict_randrange`,  `predict_randint`, `predict_choice` and `predict_random`
 
 Here's an example usage:
 ```python
