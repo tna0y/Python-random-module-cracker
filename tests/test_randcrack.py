@@ -50,3 +50,12 @@ def test_predict_first_1000_close():
         cracker.submit(random.randint(0, 4294967294))
 
     assert sum([random.getrandbits(32) == cracker.predict_getrandbits(32) for _ in range(1000)]) >= 980
+
+def test_predict_random():
+    random.seed(time.time())
+
+    cracker = RandCrack()
+
+    for i in range(624):
+        cracker.submit(random.randint(0, 4294967294))
+    assert sum([random.random() == cracker.predict_random() for _ in range(1000)]) >= 980

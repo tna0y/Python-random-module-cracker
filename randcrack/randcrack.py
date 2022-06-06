@@ -98,6 +98,11 @@ class RandCrack:
             raise IndexError('Cannot choose from an empty sequence')
         return seq[i]
 
+    def predict_random(self):
+        a = self._to_int(self._predict_32()) >> 5
+        b = self._to_int(self._predict_32()) >> 6
+        return ((a*67108864.0)+b)/9007199254740992.0
+
     def _to_bitarray(self, num):
         k = [int(x) for x in bin(num)[2:]]
         return [0] * (32 - len(k)) + k
