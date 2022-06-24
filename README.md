@@ -8,7 +8,7 @@
 
 This script is able to predict python's `random` module random generated values.
 
-Script was tested against **Python 3.5.2**, **3.6.2.** and **3.7.0.** Should work against other versions of Python as well, since the generator is pretty much the same in **2.7.12**. Enjoy!
+Script was tested against Python versions from **3.5** to **3.10**. Should work against other versions of Python as well, since the generator is pretty much the same in **2.7.12**. Enjoy!
 
 ## Installation
 To install randcrack, simply:
