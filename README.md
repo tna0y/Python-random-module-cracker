@@ -54,7 +54,3 @@ print("Random result: {}\nCracker result: {}"
 Random result: 127160928
 Cracker result: 127160928
 ```
-
-## Accuracy
-
-Cracker is not absolutely accurate. It is able to perform close to **100%** accurate on first **624** 32-bit generations, **~99.5%** on the first **1 000**, **~95%** on the first **10 000** and then figures drop to **~50%** accurate to generation **50 000**.
