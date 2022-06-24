@@ -13,7 +13,6 @@ jobs:
       matrix:
         python-version: ["3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10"]
     steps:
-    steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
