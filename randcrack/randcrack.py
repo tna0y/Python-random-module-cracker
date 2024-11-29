@@ -211,6 +211,37 @@ class RandCrack:
 
         self.counter = 0
 
+    def untwist(self):
+        w, n, m = 32, 624, 397
+        a = 0x9908B0DF
+
+        # I like bitshifting more than these custom functions...
+        MT = [self._to_int(x) for x in self.mt]
+
+        for i in range(n-1, -1, -1):
+            result = 0
+            tmp = MT[i]
+            tmp ^= MT[(i + m) % n]
+            if tmp & (1 << w-1):
+                tmp ^= a
+            result = (tmp << 1) & (1 << w-1)
+            tmp = MT[(i - 1 + n) % n]
+            tmp ^= MT[(i + m-1) % n]
+            if tmp & (1 << w-1):
+                tmp ^= a
+                result |= 1
+            result |= (tmp << 1) & ((1 << w-1) - 1)
+            MT[i] = result
+
+        self.mt = [self._to_bitarray(x) for x in MT]
+
+    def offset(self, n):
+        if n >= 0:
+            [self._predict_32() for _ in range(n)]
+        else:
+            [self.untwist() for _ in range(-n // 624 + 1)]
+            [self._predict_32() for _ in range(624 - (-n % 624))]
+
 
 if __name__ == "__main__":
     import random
@@ -222,8 +253,21 @@ if __name__ == "__main__":
 
     random.seed(time.time())
 
+    unknown = [random.getrandbits(32) for _ in range(1000)]
+
     for i in range(624):
         cracker.submit(random.randint(0, 4294967294))
 
-    print("Guessing next 32000 random bits success rate: {}%"
-          .format(sum([random.getrandbits(32) == cracker.predict_getrandbits(32) for x in range(1000)]) / 10))
+    # Future values after syncing
+    percentage = sum([random.getrandbits(32) == cracker.predict_getrandbits(32) for x in range(1000)]) / 10
+    print(f"Guessing next 32000 random bits success rate: {percentage}%")
+    assert percentage == 100
+
+    # Previous values
+    cracker.offset(-1000)  # From guessing future
+    cracker.offset(-624)  # From submitting
+    cracker.offset(-1000)  # Back to start of unknown
+
+    percentage = sum([unknown[i] == cracker.predict_getrandbits(32) for i in range(1000)]) / 10
+    print(f"Guessing previous 32000 random bits success rate: {percentage}%")
+    assert percentage == 100
