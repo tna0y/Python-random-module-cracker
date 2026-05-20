@@ -1,14 +1,14 @@
 
 # randcrack – Python random module cracker / predictor
 
-[![Build Status](https://travis-ci.org/tna0y/Python-random-module-cracker.svg?branch=master)](https://travis-ci.org/tna0y/Python-random-module-cracker)
+[![Test](https://github.com/tna0y/Python-random-module-cracker/actions/workflows/test.yml/badge.svg)](https://github.com/tna0y/Python-random-module-cracker/actions/workflows/test.yml)
 ![PyPI](https://img.shields.io/pypi/v/randcrack.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/randcrack.svg)
 ![PyPI - Implementation](https://img.shields.io/pypi/implementation/randcrack.svg)
 
 This script is able to predict python's `random` module random generated values.
 
-Script was tested against Python versions from **3.5** to **3.10**. Should work against other versions of Python as well, since the generator is pretty much the same in **2.7.12**. Enjoy!
+Script is tested against Python versions from **3.9** to **3.13**. Should work against other versions of CPython as well, since the underlying Mersenne Twister generator has not changed. Enjoy!
 
 ## Installation
 To install randcrack, simply:

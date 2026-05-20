@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "randcrack"
+version = "0.3.0"
+description = "Predict python's random module random generated values"
+readme = "README.md"
+license = { file = "LICENSE.txt" }
+authors = [
+    { name = "Maxim Kochukov", email = "kochukov.ma@gmail.com" },
+]
+keywords = ["random", "security", "cryptography", "cracker", "encryption"]
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Security",
+    "Topic :: Security :: Cryptography",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+
+[project.urls]
+Homepage = "https://github.com/tna0y/Python-random-module-cracker"
+Repository = "https://github.com/tna0y/Python-random-module-cracker"
+Issues = "https://github.com/tna0y/Python-random-module-cracker/issues"
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[tool.setuptools]
+packages = ["randcrack"]
